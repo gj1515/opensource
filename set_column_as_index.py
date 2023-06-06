@@ -8,7 +8,7 @@ def set_column_as_index(df):
         if 'q' in column_number:
             break
 
-        # 유효한 열 번호인지 확인
+        # 유효한 열 번호a인지 확인
         if int(column_number) not in range(len(df.columns)):
             print(f"유효하지 않은 열 번호입니다: {column_number}")
             continue
