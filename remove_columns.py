@@ -1,29 +1,29 @@
 import pandas as pd
-import print_csv_info
+from print_csv_info import print_csv_info
 
 def remove_columns(df):
     while True:
-        # »ç¿ëÀÚ¿¡°Ô Á¦°ÅÇÒ ¿­ ÀÎµ¦½º ÀÔ·Â ¹Ş±â
-        columns_to_remove = input("Á¦°ÅÇÒ ¿­ ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä (q=³¡³»±â, 0ºÎÅÍ ½ÃÀÛ, ¿©·¯ °³ÀÇ ÀÎµ¦½º ÀÔ·ÂÀº °ø¹éÀ¸·Î ±¸ºĞ): ").split()
+        # ì‚¬ìš©ìì—ê²Œ ì œê±°í•  ì—´ ì¸ë±ìŠ¤ ì…ë ¥ ë°›ê¸°
+        columns_to_remove = input("ì œê±°í•  ì—´ ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš” (q=ëë‚´ê¸°, 0ë¶€í„° ì‹œì‘, ì—¬ëŸ¬ ê°œì˜ ì¸ë±ìŠ¤ ì…ë ¥ì€ ê³µë°±ìœ¼ë¡œ êµ¬ë¶„): ").split()
 
         if 'q' in columns_to_remove:
             break
 
-        # ¼±ÅÃÇÑ ¿­ ÀÎµ¦½ºµéÀÌ À¯È¿ÇÑÁö È®ÀÎ
+        # ì„ íƒí•œ ì—´ ì¸ë±ìŠ¤ë“¤ì´ ìœ íš¨í•œì§€ í™•ì¸
         valid_indices = set(range(len(df.columns)))
         indices_to_remove = []
         for column_index in columns_to_remove:
             if int(column_index) not in valid_indices:
-                print(f"À¯È¿ÇÏÁö ¾ÊÀº ¿­ ¹øÈ£ÀÔ´Ï´Ù: {column_index}")
+                print(f"ìœ íš¨í•˜ì§€ ì•Šì€ ì—´ ë²ˆí˜¸ì…ë‹ˆë‹¤: {column_index}")
             else:
                 indices_to_remove.append(int(column_index))
 
-        # ¼±ÅÃµÈ ¿­µé Á¦°Å
+        # ì„ íƒëœ ì—´ë“¤ ì œê±°
         removed_columns = [df.columns[column_index] for column_index in indices_to_remove]
         df = df.drop(columns=removed_columns)
-        print(f"Á¦°ÅµÈ ¿­: {', '.join(removed_columns)}")
+        print(f"ì œê±°ëœ ì—´: {', '.join(removed_columns)}")
 
-        # ¼öÁ¤µÈ CSV ÆÄÀÏ Á¤º¸ Ãâ·Â
+        # ìˆ˜ì •ëœ CSV íŒŒì¼ ì •ë³´ ì¶œë ¥
         print_csv_info(df)
 
     return df
