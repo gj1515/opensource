@@ -1,5 +1,5 @@
 import pandas as pd
 
 def print_csv_info(df):
-    print("CSV ÆÄÀÏ Á¤º¸:")
+    print("CSV íŒŒì¼ ì •ë³´:")
     print(df.info())
