@@ -1,37 +1,37 @@
 import pandas as pd
-import print_csv_info
+from print_csv_info import print_csv_info
 
 
 def encode_categorical_data(df):
     while True:
         categorical_columns = df.select_dtypes(include=['object']).columns.tolist()
-        print("¹üÁÖÇü µ¥ÀÌÅÍ ¿­:")
+        print("ë²”ì£¼í˜• ë°ì´í„° ì—´:")
         for column in categorical_columns:
             print(column)
 
-        # »ç¿ëÀÚ¿¡°Ô ¹üÁÖÇü µ¥ÀÌÅÍ ¿­ ¹øÈ£ ÀÔ·Â ¹Ş±â
-        columns_to_encode = input("¹üÁÖÇü µ¥ÀÌÅÍ¸¦ ÀÎÄÚµùÇÒ ¿­ ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä (q = ³¡³»±â, 0ºÎÅÍ ½ÃÀÛ, ¿©·¯ °³ÀÇ ÀÎµ¦½º ÀÔ·ÂÀº °ø¹éÀ¸·Î ±¸ºĞ): ").split()
+        # ì‚¬ìš©ìì—ê²Œ ë²”ì£¼í˜• ë°ì´í„° ì—´ ë²ˆí˜¸ ì…ë ¥ ë°›ê¸°
+        columns_to_encode = input("ë²”ì£¼í˜• ë°ì´í„°ë¥¼ ì¸ì½”ë”©í•  ì—´ ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš” (q = ëë‚´ê¸°, 0ë¶€í„° ì‹œì‘, ì—¬ëŸ¬ ê°œì˜ ì¸ë±ìŠ¤ ì…ë ¥ì€ ê³µë°±ìœ¼ë¡œ êµ¬ë¶„): ").split()
 
         if 'q' in columns_to_encode:
             break
 
-        # ¼±ÅÃÇÑ ¿­ ÀÎµ¦½ºµéÀÌ À¯È¿ÇÑÁö È®ÀÎ
+        # ì„ íƒí•œ ì—´ ì¸ë±ìŠ¤ë“¤ì´ ìœ íš¨í•œì§€ í™•ì¸
         valid_indices = set(range(len(df.columns)))
         indices_to_encode = []
         for column_index in columns_to_encode:
             if int(column_index) not in valid_indices:
-                print(f"À¯È¿ÇÏÁö ¾ÊÀº ¿­ ¹øÈ£ÀÔ´Ï´Ù: {column_index}")
+                print(f"ìœ íš¨í•˜ì§€ ì•Šì€ ì—´ ë²ˆí˜¸ì…ë‹ˆë‹¤: {column_index}")
             else:
                 indices_to_encode.append(int(column_index))
 
-        # ¼±ÅÃµÈ ¿­µé¿¡ ´ëÇØ ¹üÁÖÇü µ¥ÀÌÅÍ ÀÎÄÚµù
+        # ì„ íƒëœ ì—´ë“¤ì— ëŒ€í•´ ë²”ì£¼í˜• ë°ì´í„° ì¸ì½”ë”©
         for column_index in indices_to_encode:
             column_name = df.columns[column_index]
             unique_values = df[column_name].unique().tolist()
             encoding_map = {value: index for index, value in enumerate(unique_values)}
             df[column_name] = df[column_name].map(encoding_map)
 
-        # ¼öÁ¤µÈ CSV ÆÄÀÏ Á¤º¸ Ãâ·Â
+        # ìˆ˜ì •ëœ CSV íŒŒì¼ ì •ë³´ ì¶œë ¥
         print_csv_info(df)
 
     return df
