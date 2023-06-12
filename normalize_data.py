@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
+from print_csv_info import print_csv_info
 
 def normalize_data(df):
     while True:
@@ -23,5 +24,8 @@ def normalize_data(df):
         for index in columns_index :
             column_name = df.columns[int(index)]
             df[[column_name]] = scaler.fit_transform(df[[column_name]])
-        
+                
+        # 수정된 CSV 파일 정보 출력
+        print_csv_info(df)
+
         return df
