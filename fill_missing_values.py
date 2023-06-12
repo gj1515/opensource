@@ -1,54 +1,54 @@
 import pandas as pd
-import print_csv_info
+from print_csv_info import print_csv_info
 
 def fill_missing_values(df):
     while True:
-        # °áÃøÄ¡°¡ ÀÖ´Â ¿­ Ãâ·Â
+        # ê²°ì¸¡ì¹˜ê°€ ìˆëŠ” ì—´ ì¶œë ¥
         columns_with_missing_values = df.columns[df.isnull().any()].tolist()
-        print("°áÃøÄ¡°¡ ÀÖ´Â ¿­:")
+        print("ê²°ì¸¡ì¹˜ê°€ ìˆëŠ” ì—´:")
         for column in columns_with_missing_values:
             print(column)
 
-        # »ç¿ëÀÚ¿¡°Ô °áÃøÄ¡ ´ëÃ¼ÇÒ ¿­ ¹øÈ£ ÀÔ·Â ¹Ş±â
-        columns_to_fill = input("°áÃøÄ¡¸¦ ´ëÃ¼ÇÒ ¿­ ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä (q = ³¡³»±â, 0ºÎÅÍ ½ÃÀÛ, ¿©·¯ °³ÀÇ ÀÎµ¦½º ÀÔ·ÂÀº °ø¹éÀ¸·Î ±¸ºĞ): ").split()
+        # ì‚¬ìš©ìì—ê²Œ ê²°ì¸¡ì¹˜ ëŒ€ì²´í•  ì—´ ë²ˆí˜¸ ì…ë ¥ ë°›ê¸°
+        columns_to_fill = input("ê²°ì¸¡ì¹˜ë¥¼ ëŒ€ì²´í•  ì—´ ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš” (q = ëë‚´ê¸°, 0ë¶€í„° ì‹œì‘, ì—¬ëŸ¬ ê°œì˜ ì¸ë±ìŠ¤ ì…ë ¥ì€ ê³µë°±ìœ¼ë¡œ êµ¬ë¶„): ").split()
 
         if 'q' in columns_to_fill:
             break
 
-        # ¼±ÅÃÇÑ ¿­ ÀÎµ¦½ºµéÀÌ À¯È¿ÇÑÁö È®ÀÎ
+        # ì„ íƒí•œ ì—´ ì¸ë±ìŠ¤ë“¤ì´ ìœ íš¨í•œì§€ í™•ì¸
         valid_indices = set(range(len(df.columns)))
         indices_to_fill = []
         for column_index in columns_to_fill:
             if column_index == 'q':
                 break
             if int(column_index) not in valid_indices:
-                print(f"À¯È¿ÇÏÁö ¾ÊÀº ¿­ ¹øÈ£ÀÔ´Ï´Ù: {column_index}")
+                print(f"ìœ íš¨í•˜ì§€ ì•Šì€ ì—´ ë²ˆí˜¸ì…ë‹ˆë‹¤: {column_index}")
             else:
                 indices_to_fill.append(int(column_index))
 
-        # »ç¿ëÀÚ¿¡°Ô °áÃøÄ¡ ´ëÃ¼ ¹æ¹ı ÀÔ·Â ¹Ş±â
-        fill_method = input("°áÃøÄ¡¸¦ ´ëÃ¼ÇÒ ¹æ¹ıÀ» ¼±ÅÃÇÏ¼¼¿ä (1: Áß¾Ó°ª, 2: ÃÖºó°ª 3: ÇàÁ¦°Å): ")
+        # ì‚¬ìš©ìì—ê²Œ ê²°ì¸¡ì¹˜ ëŒ€ì²´ ë°©ë²• ì…ë ¥ ë°›ê¸°
+        fill_method = input("ê²°ì¸¡ì¹˜ë¥¼ ëŒ€ì²´í•  ë°©ë²•ì„ ì„ íƒí•˜ì„¸ìš” (1: ì¤‘ì•™ê°’, 2: ìµœë¹ˆê°’ 3: í–‰ì œê±°): ")
 
-        # ¼±ÅÃµÈ ¿­µé¿¡ ´ëÇØ °áÃøÄ¡ ´ëÃ¼
+        # ì„ íƒëœ ì—´ë“¤ì— ëŒ€í•´ ê²°ì¸¡ì¹˜ ëŒ€ì²´
         for column_index in indices_to_fill:
             column_name = df.columns[column_index]
             if fill_method == "1":
-                # Áß¾Ó°ªÀ¸·Î ´ëÃ¼
+                # ì¤‘ì•™ê°’ìœ¼ë¡œ ëŒ€ì²´
                 median_value = df[column_name].median()
                 df[column_name].fillna(median_value, inplace=True)
             elif fill_method == "2":
-                # ÃÖºó°ªÀ¸·Î ´ëÃ¼
+                # ìµœë¹ˆê°’ìœ¼ë¡œ ëŒ€ì²´
                 mode_value = df[column_name].mode()[0]
                 df[column_name].fillna(mode_value, inplace=True)
-                # °áÃøÁö Çà Á¦°Å
+                # ê²°ì¸¡ì§€ í–‰ ì œê±°
             elif fill_method == '3':
                 df1 = df
                 df = df1.dropna()
                 
             else:
-                print(f"À¯È¿ÇÏÁö ¾ÊÀº ¼±ÅÃÀÔ´Ï´Ù. ¿­ {column_name}ÀÇ °áÃøÄ¡ ´ëÃ¼¸¦ ¼öÇàÇÏÁö ¾Ê½À´Ï´Ù.")
+                print(f"ìœ íš¨í•˜ì§€ ì•Šì€ ì„ íƒì…ë‹ˆë‹¤. ì—´ {column_name}ì˜ ê²°ì¸¡ì¹˜ ëŒ€ì²´ë¥¼ ìˆ˜í–‰í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.")
 
-        # ¼öÁ¤µÈ CSV ÆÄÀÏ Á¤º¸ Ãâ·Â
+        # ìˆ˜ì •ëœ CSV íŒŒì¼ ì •ë³´ ì¶œë ¥
         print_csv_info(df)
 
     return df
