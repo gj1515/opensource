@@ -7,31 +7,31 @@ from normalize_data import normalize_data
 from set_column_as_index import set_column_as_index
 
 def preprocess_titanic_data(input_file, output_file):
-    # 1. µ¥ÀÌÅÍ¼Â ºÒ·¯¿À±â
+    # 1. ë°ì´í„°ì…‹ ë¶ˆëŸ¬ì˜¤ê¸°
     df = pd.read_csv(input_file)
 
     print_csv_info(df)
 
-    # ¿­ Á¦°Å
+    # ì—´ ì œê±°
     df = remove_columns(df)
 
-    # °áÃøÄ¡ ´ëÃ¼
+    # ê²°ì¸¡ì¹˜ ëŒ€ì²´
     df = fill_missing_values(df)
 
-    # ¹üÁÖÇü µ¥ÀÌÅÍ ÀÎÄÚµù
+    # ë²”ì£¼í˜• ë°ì´í„° ì¸ì½”ë”©
     df = encode_categorical_data(df)
 
-    # µ¥ÀÌÅÍ Á¤±ÔÈ­
+    # ë°ì´í„° ì •ê·œí™” 
     df = normalize_data(df)
 
-    # ÀÎµ¦½º ¹øÈ£ ºÎ¿©
+    # ì¸ë±ìŠ¤ ë²ˆí˜¸ ë¶€ì—¬
     df = set_column_as_index(df)
 
-    # ¼öÁ¤µÈ CSV ÆÄÀÏ ÀúÀå
+    # ìˆ˜ì •ëœ CSV íŒŒì¼ ì €ì¥
     df.to_csv(output_file, index=False)
 
-    print("TrainingÀ» À§ÇÑ CSV ÆÄÀÏ ¿Ï¼º!")
+    print("Trainingì„ ìœ„í•œ CSV íŒŒì¼ ì™„ì„±!")
 
 
-# ÇÔ¼ö È£Ãâ 
+# í•¨ìˆ˜ í˜¸ì¶œ 
 preprocess_titanic_data('./train.csv','./final.csv')
