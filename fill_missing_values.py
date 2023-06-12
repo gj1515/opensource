@@ -42,8 +42,8 @@ def fill_missing_values(df):
                 df[column_name].fillna(mode_value, inplace=True)
                 # 결측지 행 제거
             elif fill_method == '3':
-                df1 = df
-                df = df1.dropna()
+                df1 = df.dropna(subset=[column_name])
+                df = df1
                 
             else:
                 print(f"유효하지 않은 선택입니다. 열 {column_name}의 결측치 대체를 수행하지 않습니다.")
