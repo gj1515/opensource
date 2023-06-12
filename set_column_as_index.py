@@ -1,4 +1,5 @@
 import pandas as pd
+from print_csv_info import print_csv_info
 
 def set_column_as_index(df):
     while True:
@@ -17,5 +18,8 @@ def set_column_as_index(df):
         column_name = df.columns[int(column_number)]
         df.set_index(column_name, inplace=True)
         print(f'인덱스로 사용된 열 : {column_name}')
+
+        # 수정된 CSV 파일 정보 출력
+        print_csv_info(df)
 
         return df
